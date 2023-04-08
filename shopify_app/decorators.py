@@ -1,3 +1,5 @@
+print("!!!!!!!!!!!!!!!!!!!!! loading shopify_app/decorators.py")
+
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.conf import settings
@@ -10,4 +12,6 @@ def shop_login_required(fn):
             return redirect(reverse(views.login))
         return fn(request, *args, **kwargs)
     wrapper.__name__ = fn.__name__
+    print("!!!!!!!!!!!!!!!!!!!!! FINISHED   load shopify_app/decorators.py")
     return wrapper
+

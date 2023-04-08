@@ -1,3 +1,6 @@
+
+print("!!!!!!!!!!!!!!!!!!!!! loading home/views.py")
+
 from django.shortcuts import render
 import shopify
 from shopify_app.decorators import shop_login_required

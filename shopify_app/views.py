@@ -1,3 +1,6 @@
+
+print("!!!!!!!!!!!!!!!!!!! trying to load shopify_app/views.py")
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -31,7 +34,11 @@ def authenticate(request):
     return redirect(permission_url)
 
 def finalize(request):
-    api_secret = apps.get_app_config('shopify_app').SHOPIFY_API_SECRET
+    from decouple import config
+    # api_secret = apps.get_app_config('shopify_app').SHOPIFY_API_SECRET
+
+    api_secret = config('SHOPIFY_API_SECRET')
+    input(str(api_secret))
     params = request.GET.dict()
 
     if request.session['shopify_oauth_state_param'] != params['state']:

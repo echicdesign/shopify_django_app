@@ -1,3 +1,5 @@
+print("!!!!!!!!!!!!!!!!!!!!! loading  shopify_app/context processors.py")
+
 import shopify
 
 def current_shop(request):

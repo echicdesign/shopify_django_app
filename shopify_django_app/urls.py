@@ -16,7 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+admin.site.site_header = "Aravenda Shopify Metafields"
+admin.site.site_title = "Aravenda Shopify Metafields"
+admin.site.index_title = "Welcome to Aravenda Shopify Metafields"
+admin.site.enable_nav_sidebar = False  # added 27/1/21 kc to deal with weird side bar issue
+
+
 urlpatterns = [
     path('shopify/', include('shopify_app.urls')),
     path('', include('home.urls')),
 ]
+
+
+
+
+
+
+
+

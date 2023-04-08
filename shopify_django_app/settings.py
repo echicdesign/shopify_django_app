@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from decouple import config
 from shopify_app import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -21,25 +22,35 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Make this unique and store it as an environment variable. 
 # Do not share it with anyone or commit it to version control.
-SECRET_KEY = os.environ.get('DJANGO_SECRET')
+# SECRET_KEY = os.environ.get('DJANGO_SECRET')
+SECRET_KEY = config('DJANGO_SECRET')
 
+print("got secret key1  "+str(SECRET_KEY))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS =     config('ALLOWED_HOSTS', cast=lambda v: [s.strip("") for s in v.split(',')])
+
+
+# kc additions from gaia app
+DEFAULT_AUTO_FIELD='django.db.models.AutoField' # kc updated 29/10/21 per https://stackoverflow.com/questions/66971594/auto-create-primary-key-used-when-not-defining-a-primary-key-type-warning-in-dja
+
+
 
 # Application definition
-
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shopify_app.apps.ShopifyAppConfig',
-    'home.apps.HomeConfig',
+   'shopify_app.apps.ShopifyAppConfig',
+   'home.apps.HomeConfig',
+   'django.contrib.admin',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,10 +65,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'shopify_django_app.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+
+                os.path.join(BASE_DIR, 'shopify_app/templates/shopify_app/'),     # this looks best
+                os.path.join(BASE_DIR, '../templates/admin/'),     # 20/2/19 admin issue
+                os.path.join(BASE_DIR, '../accounts/templates/registration/'),     # 2/3/21 admin issue
+                os.path.join(BASE_DIR, '../accounts/templates/'),     # 2/3/21 admin issue
+                os.path.join(BASE_DIR, '../admin/templates/admin/'),     # 18/3/19 adding invoice button
+                os.path.join(BASE_DIR, 'admin/templates/admin/'),     # 18/3/19 adding invoice button - when approach in line above didn't hit collect static
+                os.path.join(BASE_DIR, 'templates/')
+
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,8 +96,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shopify_django_app.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -85,8 +105,6 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -122,3 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# hail mary
+SECRET_KEY = config('DJANGO_SECRET')
+

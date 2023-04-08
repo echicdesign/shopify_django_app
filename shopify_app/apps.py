@@ -1,3 +1,5 @@
+print("!!!!!!!!!!!!!!!!!!!!! loading shopify_app/apps.py")
+
 from django.apps import AppConfig
 import os
 
@@ -24,3 +26,4 @@ class ShopifyAppConfig(AppConfig):
     # See http://api.shopify.com/authentication.html for available scopes
     # to determine the permisssions your app will need.
     SHOPIFY_API_SCOPE = os.environ.get('SHOPIFY_API_SCOPE', 'read_products,read_orders').split(',')
+    SECRET_KEY =  os.environ.get('DJANGO_SECRET')
